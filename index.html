@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0e14" />
     <title>LOKVS | Modular spatial intelligence for autonomous systems</title>
     <meta
       name="description"
@@ -20,7 +21,11 @@
     <header class="site-header">
       <div class="container nav-wrap">
         <a class="brand" href="index.html">LOKVS</a>
-        <nav class="main-nav" aria-label="Primary navigation">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation">
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="main-nav" id="primary-navigation" aria-label="Primary navigation">
           <a href="technology.html">Platform</a>
           <a href="products.html">Products</a>
           <a href="applications.html">Applications</a>
@@ -59,7 +64,83 @@
             </ul>
           </div>
           <figure class="hero-visual">
-            <canvas id="topologyCanvas" width="640" height="360" aria-label="Coordinated drone mesh with live UWB relative positioning"></canvas>
+            <div class="simulation-grid">
+              <section class="sim-top-panel" aria-label="Top view relative mesh">
+                <div class="sim-panel-header">
+                  <p class="sim-panel-label">Top view / mesh</p>
+                </div>
+                <canvas id="meshOverviewCanvas" width="220" height="180" aria-label="Top view of relative drone mesh"></canvas>
+              </section>
+              <div class="telemetry-panel" aria-label="UWB relative 3D state">
+                <div class="telemetry-header">
+                  <p class="telemetry-title">UWB RELATIVE 3D STATE</p>
+                  <p class="telemetry-subtitle">Live relative state from the active mesh</p>
+                </div>
+                <div class="telemetry-meta">
+                  <div class="telemetry-meta-item">
+                    <span>mesh mode</span>
+                    <strong data-telemetry-mesh-mode>coordinated</strong>
+                  </div>
+                  <div class="telemetry-meta-item">
+                    <span>scenario</span>
+                    <strong data-telemetry-scenario>auto cycle</strong>
+                  </div>
+                  <div class="telemetry-meta-item">
+                    <span>node type</span>
+                    <strong data-telemetry-node-type>LOKVS UWB module</strong>
+                  </div>
+                  <div class="telemetry-meta-item">
+                    <span>autopilot</span>
+                    <strong data-telemetry-autopilot>adaptive</strong>
+                  </div>
+                </div>
+                <div class="telemetry-table" role="table" aria-label="Relative position table">
+                  <div class="telemetry-row telemetry-row-head" role="row">
+                    <span role="columnheader">ID</span>
+                    <span role="columnheader">X</span>
+                    <span role="columnheader">Y</span>
+                    <span role="columnheader">Z</span>
+                  </div>
+                  <div class="telemetry-row" role="row" data-telemetry-row="D-02">
+                    <span role="cell">D-02</span>
+                    <span role="cell" data-axis="x">-13.7</span>
+                    <span role="cell" data-axis="y">+5.8</span>
+                    <span role="cell" data-axis="z">+0.6</span>
+                  </div>
+                  <div class="telemetry-row" role="row" data-telemetry-row="D-03">
+                    <span role="cell">D-03</span>
+                    <span role="cell" data-axis="x">+39.6</span>
+                    <span role="cell" data-axis="y">+5.9</span>
+                    <span role="cell" data-axis="z">+0.7</span>
+                  </div>
+                  <div class="telemetry-row" role="row" data-telemetry-row="D-04">
+                    <span role="cell">D-04</span>
+                    <span role="cell" data-axis="x">-2.0</span>
+                    <span role="cell" data-axis="y">+16.1</span>
+                    <span role="cell" data-axis="z">+3.4</span>
+                  </div>
+                  <div class="telemetry-row" role="row" data-telemetry-row="D-05">
+                    <span role="cell">D-05</span>
+                    <span role="cell" data-axis="x">-18.3</span>
+                    <span role="cell" data-axis="y">+30.0</span>
+                    <span role="cell" data-axis="z">+1.8</span>
+                  </div>
+                  <div class="telemetry-row" role="row" data-telemetry-row="D-06">
+                    <span role="cell">D-06</span>
+                    <span role="cell" data-axis="x">+20.8</span>
+                    <span role="cell" data-axis="y">+29.4</span>
+                    <span role="cell" data-axis="z">+1.8</span>
+                  </div>
+                </div>
+              </div>
+              <section class="sim-main-panel" aria-label="Interactive spatial simulation">
+                <div class="sim-panel-header">
+                  <p class="sim-panel-label">Spatial estimation view</p>
+                  <p class="sim-panel-hint">Drag to orbit · Scroll to zoom</p>
+                </div>
+                <canvas id="topologyCanvas" width="640" height="360" aria-label="Coordinated drone mesh with live UWB relative positioning"></canvas>
+              </section>
+            </div>
             <div class="formation-selector" role="group" aria-label="Formation selector">
               <button type="button" class="formation-chip is-active" data-formation="auto" aria-pressed="true">Auto</button>
               <button type="button" class="formation-chip" data-formation="perimeter" aria-pressed="false">Defense</button>

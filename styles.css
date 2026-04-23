@@ -23,12 +23,19 @@ body {
   min-height: 100%;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
   color: var(--text);
   background: radial-gradient(120% 80% at 80% -5%, rgba(75, 165, 255, 0.16), transparent 45%),
     linear-gradient(180deg, var(--bg-1), #07090d 48%, var(--bg-1));
   line-height: 1.5;
+  overflow-x: hidden;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 ::selection {
@@ -48,6 +55,8 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
+  padding-top: env(safe-area-inset-top);
+  isolation: isolate;
   backdrop-filter: blur(9px);
   background: color-mix(in srgb, var(--bg-1) 85%, transparent);
   border-bottom: 1px solid var(--line);
@@ -63,6 +72,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  position: relative;
 }
 
 .brand {
@@ -72,6 +82,49 @@ a {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+.nav-toggle {
+  display: none;
+  width: 48px;
+  height: 48px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(12, 18, 25, 0.92);
+  color: var(--text);
+}
+
+.nav-toggle span {
+  position: absolute;
+  left: 50%;
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  border-radius: 999px;
+  background: #dce9f8;
+  transform: translateX(-50%);
+  transition: transform 160ms ease, top 160ms ease, width 160ms ease;
+}
+
+.nav-toggle span:first-child {
+  top: 19px;
+}
+
+.nav-toggle span:last-child {
+  top: 27px;
+}
+
+body.nav-open .nav-toggle span:first-child {
+  top: 23px;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+body.nav-open .nav-toggle span:last-child {
+  top: 23px;
+  transform: translateX(-50%) rotate(-45deg);
 }
 
 .main-nav {
@@ -264,13 +317,84 @@ h3 {
   flex-direction: column;
 }
 
+.simulation-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.78fr) minmax(0, 1.22fr);
+  gap: 0.82rem;
+  align-items: stretch;
+}
+
+.sim-top-panel,
+.sim-main-panel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(11, 16, 23, 0.9);
+  padding: 0.85rem;
+}
+
+.sim-top-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.sim-main-panel {
+  grid-column: 1 / -1;
+}
+
+.sim-panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.45rem 1rem;
+  margin-bottom: 0.7rem;
+}
+
+.sim-panel-label,
+.sim-panel-hint {
+  margin: 0;
+}
+
+.sim-panel-label {
+  color: #d6e7f9;
+  font: 600 0.72rem "IBM Plex Mono", "Courier New", monospace;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sim-panel-hint {
+  color: var(--muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+#meshOverviewCanvas {
+  width: 100%;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 220px;
+  border-radius: 8px;
+  border: 1px solid #273346;
+  background: radial-gradient(circle at 50% 24%, rgba(75, 165, 255, 0.08), rgba(13, 18, 24, 0.94) 74%);
+  display: block;
+}
+
 #topologyCanvas {
   width: 100%;
-  min-height: clamp(390px, 42vw, 520px);
+  min-height: clamp(300px, 34vw, 420px);
   border-radius: 6px;
   border: 1px solid #273346;
   background: radial-gradient(circle at 50% 12%, #1f2734 0%, #0d1218 75%);
   display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+#topologyCanvas.is-dragging {
+  cursor: grabbing;
 }
 
 .formation-selector {
@@ -278,6 +402,103 @@ h3 {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.78rem;
+}
+
+.telemetry-panel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(11, 16, 23, 0.92);
+  padding: 0.95rem 1rem 1rem;
+}
+
+.telemetry-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.45rem 1rem;
+}
+
+.telemetry-title,
+.telemetry-subtitle {
+  margin: 0;
+}
+
+.telemetry-title {
+  color: #d6e7f9;
+  font: 600 0.86rem "IBM Plex Mono", "Courier New", monospace;
+  letter-spacing: 0.06em;
+}
+
+.telemetry-subtitle {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.telemetry-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+  margin-top: 0.85rem;
+}
+
+.telemetry-meta-item {
+  display: grid;
+  gap: 0.16rem;
+  min-width: 0;
+  min-height: 3.15rem;
+}
+
+.telemetry-meta-item span,
+.telemetry-row {
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+}
+
+.telemetry-meta-item span {
+  color: #8eb6df;
+  font-size: 0.73rem;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.telemetry-meta-item strong {
+  display: block;
+  color: #d6e7f9;
+  font-size: 0.84rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.telemetry-table {
+  margin-top: 0.85rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.telemetry-row {
+  display: grid;
+  grid-template-columns: 4.1rem repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  align-items: center;
+  color: #d6e7f9;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.telemetry-row + .telemetry-row {
+  margin-top: 0.35rem;
+}
+
+.telemetry-row span:nth-child(n + 2) {
+  text-align: right;
+}
+
+.telemetry-row-head {
+  color: #7bc4ff;
+  margin-bottom: 0.45rem;
 }
 
 .formation-chip {
@@ -498,6 +719,7 @@ button {
 .site-footer {
   border-top: 1px solid var(--line);
   margin-top: 0.7rem;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .footer-inner {
@@ -555,29 +777,266 @@ button:hover {
 
 @media (max-width: 760px) {
   .container {
-    width: calc(100% - 1.6rem);
+    width: calc(100% - 1.25rem);
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    isolation: isolate;
+    backdrop-filter: blur(16px);
+  }
+
+  .nav-wrap {
+    min-height: 68px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding-block: 0.75rem;
+  }
+
+  .brand {
+    font-size: 1.08rem;
+    letter-spacing: 0.14em;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    z-index: 42;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    left: 0;
+    right: 0;
+    width: auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    padding: 0.8rem;
+    background: linear-gradient(180deg, rgba(10, 15, 22, 0.98), rgba(8, 12, 18, 0.98));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    overflow-y: auto;
+    max-height: min(520px, calc(100svh - 5.75rem - env(safe-area-inset-top)));
+    transform: translateY(-0.75rem) scale(0.985);
+    transform-origin: top right;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 180ms ease, opacity 180ms ease, visibility 0ms linear 180ms;
+    z-index: 41;
+  }
+
+  body.nav-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 7, 12, 0.58);
+    backdrop-filter: blur(4px);
+    z-index: 30;
+  }
+
+  body.nav-open {
+    overflow: hidden;
+  }
+
+  body.nav-open .main-nav {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0ms;
+  }
+
+  .main-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    white-space: normal;
+    font-size: 0.98rem;
+  }
+
+  .main-nav a.is-active,
+  .main-nav a[aria-current="page"] {
+    border-color: rgba(75, 165, 255, 0.4);
+    background: rgba(75, 165, 255, 0.08);
+  }
+
+  .main-nav .btn,
+  .main-nav .btn-small {
+    width: 100%;
+    min-height: 54px;
+    justify-content: center;
+    border-radius: 12px;
+    margin-top: 0.25rem;
   }
 
   .hero-copy h1,
   .page-hero h1,
   h1 {
-    font-size: clamp(1.8rem, 8vw, 2.4rem);
+    font-size: clamp(2.15rem, 9.8vw, 3rem);
+    max-width: 10ch;
+    letter-spacing: -0.02em;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section-tight {
+    padding-top: 2.2rem;
+    padding-bottom: 3rem;
+  }
+
+  .kicker {
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+  }
+
+  .hero-grid {
+    gap: 1.4rem;
+  }
+
+  .hero-visual {
+    order: 0;
+    padding: 0.8rem;
+    border-radius: 14px;
+  }
+
+  .simulation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sim-main-panel {
+    grid-column: auto;
+  }
+
+  .sim-top-panel,
+  .sim-main-panel,
+  .telemetry-panel {
+    padding: 0.82rem;
+  }
+
+  .sim-panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .sim-panel-label {
+    font-size: 0.71rem;
+    letter-spacing: 0.1em;
+  }
+
+  .sim-panel-hint {
+    font-size: 0.74rem;
+    white-space: normal;
+  }
+
+  #meshOverviewCanvas {
+    min-height: 200px;
   }
 
   #topologyCanvas {
-    min-height: 360px;
-  }
-
-  .main-nav {
-    gap: 0.65rem;
+    min-height: 300px;
+    height: 300px;
   }
 
   .classifier-row {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 0.45rem;
   }
 
   .classifier {
     font-size: 0.76rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .hero-metrics {
+    margin-top: 1rem;
+    padding-left: 0.8rem;
+  }
+
+  .hero-metrics li {
+    font-size: 0.82rem;
+  }
+
+  .hero-actions,
+  .cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn,
+  .cta-row .btn {
+    width: 100%;
+    min-height: 52px;
+    border-radius: 12px;
+  }
+
+  .formation-selector {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.2rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .formation-selector::-webkit-scrollbar {
+    display: none;
+  }
+
+  .formation-chip {
+    flex: 0 0 auto;
+    min-height: 46px;
+    padding: 0.55rem 0.9rem;
+    scroll-snap-align: start;
+  }
+
+  .telemetry-header {
+    align-items: flex-start;
+  }
+
+  .telemetry-subtitle {
+    max-width: none;
+  }
+
+  .telemetry-meta {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem 0.8rem;
+  }
+
+  .panel,
+  .stack-step,
+  .callout {
+    border-radius: 14px;
+  }
+
+  .stack-step {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .index-tag {
+    width: auto;
+    text-align: left;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0 0 0.35rem;
   }
 
   .contact-form {
@@ -587,5 +1046,123 @@ button:hover {
   .contact-form label:nth-child(9),
   .contact-form label:nth-child(10) {
     grid-column: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    width: calc(100% - 1rem);
+  }
+
+  .nav-wrap {
+    min-height: 64px;
+    padding-block: 0.65rem;
+  }
+
+  .main-nav {
+    max-height: min(500px, calc(100svh - 5.25rem - env(safe-area-inset-top)));
+  }
+
+  .lead,
+  .section-text {
+    font-size: 0.98rem;
+  }
+
+  .hero-copy h1,
+  .page-hero h1,
+  h1 {
+    font-size: clamp(2rem, 11vw, 2.7rem);
+    max-width: 9ch;
+  }
+
+  .hero-visual {
+    padding: 0.72rem;
+  }
+
+  #meshOverviewCanvas {
+    min-height: 180px;
+  }
+
+  #topologyCanvas {
+    min-height: 280px;
+    height: 280px;
+  }
+
+  .telemetry-title {
+    font-size: 0.8rem;
+  }
+
+  .telemetry-subtitle {
+    font-size: 0.76rem;
+  }
+
+  .telemetry-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .telemetry-row {
+    grid-template-columns: 3.5rem repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+    font-size: 0.74rem;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    min-height: auto;
+    padding-block: 1rem;
+  }
+
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea,
+  .contact-form button {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    width: calc(100% - 0.9rem);
+  }
+
+  .main-nav {
+    left: 0;
+    right: 0;
+  }
+
+  .main-nav a {
+    min-height: 50px;
+    padding: 0.85rem 0.9rem;
+  }
+
+  .hero-copy h1,
+  .page-hero h1,
+  h1 {
+    font-size: clamp(1.95rem, 11.5vw, 2.45rem);
+  }
+
+  .section {
+    padding: 3.2rem 0;
+  }
+
+  .hero-visual figcaption {
+    font-size: 0.82rem;
+  }
+
+  #topologyCanvas {
+    min-height: 264px;
+    height: 264px;
+  }
+
+  .sim-panel-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .telemetry-row {
+    grid-template-columns: 3.2rem repeat(3, minmax(0, 1fr));
+    font-size: 0.71rem;
   }
 }
