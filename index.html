@@ -60,6 +60,12 @@
           </div>
           <figure class="hero-visual">
             <canvas id="topologyCanvas" width="640" height="360" aria-label="Coordinated drone mesh with live UWB relative positioning"></canvas>
+            <div class="formation-selector" role="group" aria-label="Formation selector">
+              <button type="button" class="formation-chip is-active" data-formation="auto" aria-pressed="true">Auto</button>
+              <button type="button" class="formation-chip" data-formation="perimeter" aria-pressed="false">Defense</button>
+              <button type="button" class="formation-chip" data-formation="response" aria-pressed="false">Response</button>
+              <button type="button" class="formation-chip" data-formation="inspection" aria-pressed="false">Inspection</button>
+            </div>
             <figcaption>Coordinated drone mesh showing live UWB-derived x/y/z relative state and formation behavior.</figcaption>
           </figure>
         </div>

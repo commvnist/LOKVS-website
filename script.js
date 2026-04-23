@@ -90,38 +90,44 @@
     return;
   }
 
+  const formationButtons = document.querySelectorAll(".formation-chip");
+  let selectedFormation = "auto";
+
   const drones = [];
   const droneCount = 6;
   const formationDuration = 7.5;
   const formationStates = [
     {
-      name: "diamond",
+      name: "perimeter",
+      label: "Defense perimeter",
       offsets: [
-        { x: -18, y: 10, z: 0.9 },
-        { x: 18, y: 10, z: 0.9 },
-        { x: -36, y: 22, z: 1.5 },
-        { x: 0, y: 28, z: 2.0 },
-        { x: 36, y: 22, z: 1.5 },
+        { x: -14, y: 10, z: 1.0 },
+        { x: 14, y: 10, z: 1.4 },
+        { x: -28, y: 22, z: 2.0 },
+        { x: 0, y: 32, z: 2.8 },
+        { x: 28, y: 22, z: 2.0 },
       ],
     },
     {
-      name: "sweep",
+      name: "response",
+      label: "Search response",
       offsets: [
-        { x: -28, y: 8, z: 0.8 },
-        { x: 0, y: 13, z: 1.2 },
-        { x: 28, y: 8, z: 0.8 },
-        { x: -46, y: 20, z: 1.6 },
-        { x: 46, y: 20, z: 1.6 },
+        { x: -42, y: 6, z: 0.8 },
+        { x: 42, y: 6, z: 0.8 },
+        { x: 0, y: 16, z: 3.7 },
+        { x: -20, y: 30, z: 1.8 },
+        { x: 20, y: 30, z: 1.8 },
       ],
     },
     {
-      name: "column",
+      name: "inspection",
+      label: "Industrial inspection",
       offsets: [
-        { x: -12, y: 12, z: 0.7 },
-        { x: 12, y: 12, z: 0.7 },
-        { x: -12, y: 24, z: 1.3 },
-        { x: 12, y: 24, z: 1.3 },
-        { x: 0, y: 36, z: 1.9 },
+        { x: -10, y: 11, z: 1.0 },
+        { x: 12, y: 12, z: 2.0 },
+        { x: -12, y: 24, z: 3.1 },
+        { x: 14, y: 26, z: 4.2 },
+        { x: 2, y: 38, z: 5.4 },
       ],
     },
   ];
@@ -140,10 +146,24 @@
   ];
   let width = canvas.clientWidth;
   let height = canvas.clientHeight;
+  let lastSimTime = 0;
+  let activeFormationTransition = {
+    fromOffsets: formationStates[0].offsets.map((offset) => ({ ...offset })),
+    toFormation: formationStates[0],
+    startedAt: 0,
+    duration: 2.4,
+  };
 
   const lerp = (start, end, amount) => start + (end - start) * amount;
   const smoothStep = (value) => value * value * (3 - 2 * value);
   const formatMeters = (value) => `${value >= 0 ? "+" : "-"}${Math.abs(value).toFixed(1)}`;
+  const cloneOffsets = (offsets) => offsets.map((offset) => ({ ...offset }));
+  const interpolateOffsets = (fromOffsets, toOffsets, mix) =>
+    fromOffsets.map((offset, index) => ({
+      x: lerp(offset.x, toOffsets[index].x, mix),
+      y: lerp(offset.y, toOffsets[index].y, mix),
+      z: lerp(offset.z, toOffsets[index].z, mix),
+    }));
 
   const configureCanvas = () => {
     const bounds = canvas.getBoundingClientRect();
@@ -178,7 +198,7 @@
     };
   };
 
-  const getFormationContext = (time) => {
+  const getAutoFormationContext = (time) => {
     const baseIndex = Math.floor(time / formationDuration) % formationStates.length;
     const nextIndex = (baseIndex + 1) % formationStates.length;
     const mix = smoothStep((time % formationDuration) / formationDuration);
@@ -186,8 +206,73 @@
       current: formationStates[baseIndex],
       next: formationStates[nextIndex],
       mix,
+      offsets: interpolateOffsets(
+        formationStates[baseIndex].offsets,
+        formationStates[nextIndex].offsets,
+        mix
+      ),
+      autopilotStatus: "adaptive",
     };
   };
+
+  const getManualFormationContext = (time) => {
+    const progress = Math.min(1, Math.max(0, (time - activeFormationTransition.startedAt) / activeFormationTransition.duration));
+    const mix = smoothStep(progress);
+
+    return {
+      current: activeFormationTransition.toFormation,
+      next: activeFormationTransition.toFormation,
+      mix,
+      offsets: interpolateOffsets(
+        activeFormationTransition.fromOffsets,
+        activeFormationTransition.toFormation.offsets,
+        mix
+      ),
+      autopilotStatus: progress < 1 ? "reconfiguring" : "locked",
+    };
+  };
+
+  const getCurrentFormationContext = (time) => {
+    if (selectedFormation === "auto") {
+      return getAutoFormationContext(time);
+    }
+
+    return getManualFormationContext(time);
+  };
+
+  const syncFormationButtons = () => {
+    for (const button of formationButtons) {
+      const isActive = button.dataset.formation === selectedFormation;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    }
+  };
+
+  for (const button of formationButtons) {
+    button.addEventListener("click", () => {
+      const nextFormation = button.dataset.formation || "auto";
+      if (nextFormation === selectedFormation) {
+        return;
+      }
+
+      const currentContext = getCurrentFormationContext(lastSimTime);
+      selectedFormation = nextFormation;
+
+      if (selectedFormation !== "auto") {
+        const targetFormation = formationStates.find((state) => state.name === selectedFormation) || formationStates[0];
+        activeFormationTransition = {
+          fromOffsets: cloneOffsets(currentContext.offsets),
+          toFormation: targetFormation,
+          startedAt: lastSimTime,
+          duration: 2.8,
+        };
+      }
+
+      syncFormationButtons();
+    });
+  }
+
+  syncFormationButtons();
 
   const createDrones = () => {
     drones.length = 0;
@@ -205,20 +290,25 @@
 
   const updateDrones = (time) => {
     const leader = drones[0];
-    const formation = getFormationContext(time);
+    const formation = getCurrentFormationContext(time);
+    const scenarioName = formation.current.name;
 
-    leader.target.x = Math.sin(time * 0.38) * 11 + Math.cos(time * 0.16) * 4;
-    leader.target.y = Math.cos(time * 0.21) * 7 + Math.sin(time * 0.12) * 3.5;
-    leader.target.z = 8.8 + Math.sin(time * 0.62) * 0.7;
+    if (scenarioName === "perimeter") {
+      leader.target.x = Math.sin(time * 0.36) * 9 + Math.cos(time * 0.14) * 3;
+      leader.target.y = Math.cos(time * 0.18) * 6 + Math.sin(time * 0.11) * 2.5;
+      leader.target.z = 8.9 + Math.sin(time * 0.56) * 0.55;
+    } else if (scenarioName === "response") {
+      leader.target.x = Math.sin(time * 0.24) * 21 + Math.sin(time * 0.58) * 3.5;
+      leader.target.y = Math.cos(time * 0.16) * 2.8 + Math.sin(time * 0.1) * 1.4;
+      leader.target.z = 8.5 + Math.cos(time * 0.42) * 0.35;
+    } else {
+      leader.target.x = Math.sin(time * 0.2) * 3.8 + Math.cos(time * 0.11) * 1.6;
+      leader.target.y = Math.cos(time * 0.24) * 9.5 + Math.sin(time * 0.13) * 2.6;
+      leader.target.z = 8.9 + Math.sin(time * 0.5) * 0.8;
+    }
 
     for (let i = 1; i < drones.length; i++) {
-      const currentOffset = formation.current.offsets[i - 1];
-      const nextOffset = formation.next.offsets[i - 1];
-      const offset = {
-        x: lerp(currentOffset.x, nextOffset.x, formation.mix),
-        y: lerp(currentOffset.y, nextOffset.y, formation.mix),
-        z: lerp(currentOffset.z, nextOffset.z, formation.mix),
-      };
+      const offset = formation.offsets[i - 1];
 
       drones[i].target.x = leader.target.x + offset.x + Math.sin(time * 0.55 + i) * 0.38;
       drones[i].target.y = leader.target.y + offset.y + Math.cos(time * 0.45 + i * 0.4) * 0.42;
@@ -543,7 +633,7 @@
   const drawTelemetryPanel = (formation) => {
     const leader = drones[0];
     const panelWidth = Math.min(336, width * 0.54);
-    const panelHeight = 190;
+    const panelHeight = 210;
     const panelX = width - panelWidth - 16;
     const panelY = width > 620 ? height - panelHeight - 18 : 18;
     const compact = panelWidth < 250;
@@ -555,9 +645,9 @@
     const xColumn = yColumn - (compact ? 50 : 56);
     const metaRows = [
       ["mesh mode", "coordinated"],
-      ["formation", formation.current.name],
+      ["scenario", selectedFormation === "auto" ? "auto cycle" : formation.current.label],
       ["node type", compact ? "LOKVS UWB mesh" : "LOKVS UWB module"],
-      ["formation lock", "99.3%"],
+      ["autopilot", formation.autopilotStatus],
     ];
 
     drawRoundedRect(panelX, panelY, panelWidth, panelHeight, 10);
@@ -583,20 +673,20 @@
     }
 
     ctx.fillStyle = "rgba(148, 163, 184, 0.28)";
-    ctx.fillRect(labelColumn, panelY + 100, panelWidth - paddingX * 2, 1);
+    ctx.fillRect(labelColumn, panelY + 104, panelWidth - paddingX * 2, 1);
 
     ctx.fillStyle = "#7bc4ff";
     ctx.textAlign = "left";
-    ctx.fillText("ID", labelColumn, panelY + 117);
+    ctx.fillText("ID", labelColumn, panelY + 122);
     ctx.textAlign = "right";
-    ctx.fillText("X", xColumn, panelY + 117);
-    ctx.fillText("Y", yColumn, panelY + 117);
-    ctx.fillText("Z", zColumn, panelY + 117);
+    ctx.fillText("X", xColumn, panelY + 122);
+    ctx.fillText("Y", yColumn, panelY + 122);
+    ctx.fillText("Z", zColumn, panelY + 122);
 
     ctx.fillStyle = "#d6e7f9";
     for (let i = 1; i < drones.length; i++) {
       const drone = drones[i];
-      const rowY = panelY + 117 + i * 14;
+      const rowY = panelY + 138 + (i - 1) * 14;
       const relative = {
         x: drone.position.x - leader.position.x,
         y: drone.position.y - leader.position.y,
@@ -620,6 +710,7 @@
     }
 
     const time = frameTime * 0.001;
+    lastSimTime = time;
     const formation = updateDrones(time);
 
     ctx.clearRect(0, 0, width, height);

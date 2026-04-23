@@ -273,6 +273,38 @@ h3 {
   display: block;
 }
 
+.formation-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.78rem;
+}
+
+.formation-chip {
+  border: 1px solid var(--line);
+  background: rgba(12, 18, 25, 0.88);
+  color: #9fb4c9;
+  border-radius: 999px;
+  padding: 0.42rem 0.72rem;
+  font: 600 0.76rem "IBM Plex Mono", "Courier New", monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.formation-chip:hover,
+.formation-chip:focus-visible {
+  border-color: #5a7aa0;
+  color: #d6e8fa;
+}
+
+.formation-chip.is-active,
+.formation-chip[aria-pressed="true"] {
+  border-color: rgba(75, 165, 255, 0.45);
+  background: rgba(75, 165, 255, 0.12);
+  color: #d6e8fa;
+}
+
 .hero-visual figcaption {
   color: var(--muted);
   font-size: 0.84rem;
