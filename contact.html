@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LOKVS Contact | Technical Partner Inquiry</title>
+    <meta
+      name="description"
+      content="Contact LOKVS for evaluation access, partner discussions, and technical integration planning."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="index.html">LOKVS</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="technology.html">Platform</a>
+          <a href="products.html">Products</a>
+          <a href="applications.html">Applications</a>
+          <a href="investors.html">For Investors</a>
+          <a href="company.html">Company</a>
+          <a href="contact.html" class="btn btn-small">Talk to Engineering</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-tight page-hero">
+        <div class="container">
+          <p class="kicker">Partnership inquiry</p>
+          <h1>Discuss integration and evaluation paths.</h1>
+          <p class="section-text">
+            We route requests by audience and platform constraints. The most useful inquiries include topology assumptions,
+            expected integration timing, and subsystem environment details.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <form class="contact-form" action="mailto:hello@lokvs.com" method="POST" enctype="text/plain" aria-label="Partnership inquiry form">
+            <label>
+              Organization
+              <input type="text" name="organization" autocomplete="organization" required />
+            </label>
+            <label>
+              Contact name
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label>
+              Work email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              Phone
+              <input type="tel" name="phone" autocomplete="tel" />
+            </label>
+            <label>
+              Audience
+              <select name="audience" required>
+                <option value="">Select audience</option>
+                <option value="integrator">Platform integrator</option>
+                <option value="manufacturer">Autonomy manufacturer / OEM</option>
+                <option value="investor">Investor / strategic partner</option>
+                <option value="government">Government or test partner</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label>
+              Platform type
+              <input type="text" name="platform" placeholder="e.g., ground robot, UAV swarm, AMR fleet" required />
+            </label>
+            <label>
+              Intended use case
+              <select name="useCase" required>
+                <option value="">Select use case</option>
+                <option value="positioning">Relative positioning</option>
+                <option value="multi-agent">Multi-agent coordination</option>
+                <option value="evaluation">Pilot evaluation</option>
+                <option value="defense">Defense systems</option>
+                <option value="industrial">Industrial autonomy</option>
+              </select>
+            </label>
+            <label>
+              Development stage
+              <select name="stage" required>
+                <option value="">Select stage</option>
+                <option value="concept">Concept exploration</option>
+                <option value="prototype">Prototype build</option>
+                <option value="pilot">Pilot planning</option>
+                <option value="preproduction">Pre-production / EVT</option>
+              </select>
+            </label>
+            <label>
+              Technical constraints
+              <textarea rows="4" name="constraints" placeholder="Platform stack, timing budget, environment, and topology assumptions." required></textarea>
+            </label>
+            <label>
+              Additional notes
+              <textarea rows="4" name="notes" placeholder="What would help LOKVS evaluate quickly?"></textarea>
+            </label>
+            <button type="submit" class="btn btn-primary">Submit inquiry</button>
+          </form>
+          <p class="meta-note">
+            Direct channel: <a href="mailto:hello@lokvs.com">hello@lokvs.com</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year"></span> LOKVS · Ottawa, Canada</p>
+        <a href="mailto:hello@lokvs.com">hello@lokvs.com</a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

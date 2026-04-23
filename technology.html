@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LOKVS Platform | Sensing + Estimation + Integration</title>
+    <meta
+      name="description"
+      content="LOKVS platform overview: modular sensing modules, embedded estimation firmware, and integration-ready interfaces for autonomous systems."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="index.html">LOKVS</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="technology.html">Platform</a>
+          <a href="products.html">Products</a>
+          <a href="applications.html">Applications</a>
+          <a href="investors.html">For Investors</a>
+          <a href="company.html">Company</a>
+          <a href="contact.html" class="btn btn-small">Talk to Engineering</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-tight page-hero">
+        <div class="container">
+          <p class="kicker">Technology platform</p>
+          <h1>Subsys-level certainty for autonomous integration.</h1>
+          <p class="section-text">
+            LOKVS is organized as four production layers:
+            module hardware, signal processing, estimation, and host integration. The value is in the interfaces and behavior
+            contract between these layers.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container stack-track">
+          <article class="stack-step">
+            <p class="index-tag">01</p>
+            <div class="stack-step-content">
+              <h3>Physical layer</h3>
+              <p>Compact sensing modules with deployment-oriented mechanical and electrical assumptions for integration into moving platforms.</p>
+            </div>
+          </article>
+          <article class="stack-step">
+            <p class="index-tag">02</p>
+            <div class="stack-step-content">
+              <h3>Signal layer</h3>
+              <p>Ranging capture, synchronization, jitter observability, and quality scoring before topology-level inference is performed.</p>
+            </div>
+          </article>
+          <article class="stack-step">
+            <p class="index-tag">03</p>
+            <div class="stack-step-content">
+              <h3>Estimation layer</h3>
+              <p>3D relative-state output tailored for changing node roles and dynamic topologies without static anchor dependence.</p>
+            </div>
+          </article>
+          <article class="stack-step">
+            <p class="index-tag">04</p>
+            <div class="stack-step-content">
+              <h3>Integration layer</h3>
+              <p>Host contracts that define timing assumptions, fault modes, message formats, and diagnostics for software teams.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-muted">
+        <div class="container">
+          <p class="kicker">What makes this an infrastructure play</p>
+          <div class="panel-grid">
+            <article class="panel">
+              <h3>Not a fixed-anchor platform</h3>
+              <p>LOKVS is designed for role-agnostic node topologies. Role can change dynamically without a static infrastructure rewrite.</p>
+            </article>
+            <article class="panel">
+              <h3>Deterministic behavior over best-effort demos</h3>
+              <p>We build explicit timing and quality semantics so integrators can validate assumptions and fail safely.</p>
+            </article>
+            <article class="panel">
+              <h3>Future-ready stack extension</h3>
+              <p>The same architecture supports expansion into additional sensing and perception modules with stable interface standards.</p>
+            </article>
+          </div>
+          <p class="meta-note">
+            For middleware reality checks, we design around ecosystem constraints where teams already standardize on interfaces, logs, and lifecycle tools.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year"></span> LOKVS · Ottawa, Canada</p>
+        <a href="mailto:hello@lokvs.com">hello@lokvs.com</a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

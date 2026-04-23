@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LOKVS Applications | Autonomy integration contexts</title>
+    <meta
+      name="description"
+      content="LOKVS application contexts by integration need, operational constraints, and topology behavior."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="index.html">LOKVS</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="technology.html">Platform</a>
+          <a href="products.html">Products</a>
+          <a href="applications.html">Applications</a>
+          <a href="investors.html">For Investors</a>
+          <a href="company.html">Company</a>
+          <a href="contact.html" class="btn btn-small">Talk to Engineering</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-tight page-hero">
+        <div class="container">
+          <p class="kicker">Applications</p>
+          <h1>Map to integration context, not only to market labels.</h1>
+          <p class="section-text">
+            We work where mobile-node relative awareness is needed under motion, changing topology, and limited fixed
+            infrastructure assumptions.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container application-grid">
+          <article class="panel">
+            <h2>Multi-agent ground robotics</h2>
+            <p><strong>Constraint:</strong> Shared workspaces and reordering topology.</p>
+            <p><strong>Role:</strong> Stable node-to-node state updates for collision-aware coordination and formation logic.</p>
+          </article>
+          <article class="panel">
+            <h2>Unmanned aerial operations</h2>
+            <p><strong>Constraint:</strong> GPS challenged conditions and limited perimeter control.</p>
+            <p><strong>Role:</strong> Role-neutral localization support to keep dynamic teams coherent during cooperative missions.</p>
+          </article>
+          <article class="panel">
+            <h2>Industrial and logistics automation</h2>
+            <p><strong>Constraint:</strong> High availability and strict bring-up windows.</p>
+            <p><strong>Role:</strong> Deterministic relative localization output designed for industrial validation workflows.</p>
+          </article>
+          <article class="panel">
+            <h2>Defense and security systems</h2>
+            <p><strong>Constraint:</strong> contested or infrastructure-light operation.</p>
+            <p><strong>Role:</strong> Mobile relative geometry for team coordination and mission-state awareness.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-muted">
+        <div class="container">
+          <p class="kicker">Fit criteria</p>
+          <h2>Short evaluation rubric for integrators and OEM teams.</h2>
+          <div class="stack-track">
+            <article class="panel">
+              <h3>Pilot relevance</h3>
+              <p>Does your current stack already require dynamic relative state and topology continuity?</p>
+            </article>
+            <article class="panel">
+              <h3>Program complexity</h3>
+              <p>Do you already manage real-time constraints and need a subsystem that ships with defined diagnostics?</p>
+            </article>
+            <article class="panel">
+              <h3>Sustainment model</h3>
+              <p>Can your team maintain configuration discipline across firmware and host interface versions?</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year"></span> LOKVS · Ottawa, Canada</p>
+        <a href="mailto:hello@lokvs.com">hello@lokvs.com</a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

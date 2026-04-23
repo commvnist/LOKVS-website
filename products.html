@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LOKVS Products | Anchor-free relative positioning</title>
+    <meta
+      name="description"
+      content="LOKVS product focus: role-agnostic UWB 3D relative positioning for moving node networks."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="index.html">LOKVS</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="technology.html">Platform</a>
+          <a href="products.html">Products</a>
+          <a href="applications.html">Applications</a>
+          <a href="investors.html">For Investors</a>
+          <a href="company.html">Company</a>
+          <a href="contact.html" class="btn btn-small">Talk to Engineering</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-tight page-hero">
+        <div class="container">
+          <p class="kicker">Products</p>
+          <h1>Role-agnostic UWB relative positioning for mobile autonomous fleets.</h1>
+          <p class="section-text">
+            Our first product is a subsystem-level positioning module for moving-node networks that do not require fixed
+            anchors as a permanent assumption.
+          </p>
+          <p class="meta-note">Availability: Early R&amp;D · Design-partner access</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <h2>What is different from conventional RTLS framing</h2>
+          <div class="product-compare">
+            <article class="panel panel-bordered">
+              <h3>Typical RTLS pattern</h3>
+              <ul>
+                <li>Static infrastructure assumptions dominate initial topology.</li>
+                <li>Node roles are often predetermined and slow to reconfigure.</li>
+                <li>Integration focuses on localization only.</li>
+              </ul>
+            </article>
+            <article class="panel panel-bordered">
+              <h3>LOKVS pattern</h3>
+              <ul>
+                <li>Role-agnostic nodes in motion, continuously resolving relative state.</li>
+                <li>Topology changes handled in software and host-level contracts.</li>
+                <li>Designed as an autonomy subsystem input, not a standalone tracker.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-muted">
+        <div class="container">
+          <h2>Current product attributes</h2>
+          <div class="panel-grid">
+            <article class="panel">
+              <h3>Output model</h3>
+              <p>3D relative position and confidence outputs at real-time cadence for cooperative node planning.</p>
+            </article>
+            <article class="panel">
+              <h3>Deployment target</h3>
+              <p>Mobile fleets, small UAV teams, and ground robot groups where infrastructure is constrained.</p>
+            </article>
+            <article class="panel">
+              <h3>Integration stance</h3>
+              <p>Built to sit within existing autonomy software stacks through defined interfaces and explicit timing assumptions.</p>
+            </article>
+          </div>
+          <p class="meta-note">
+            Planned roadmap structure: Relative positioning, spatial sensing, detection modules, and embedded autonomy interfaces.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="contact.html">Request technical availability details</a>
+            <a class="btn btn-secondary" href="technology.html">Review platform architecture</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year"></span> LOKVS · Ottawa, Canada</p>
+        <a href="mailto:hello@lokvs.com">hello@lokvs.com</a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
