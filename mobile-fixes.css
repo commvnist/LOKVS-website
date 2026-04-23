@@ -1,0 +1,122 @@
+html {
+  overflow-x: clip;
+}
+
+body {
+  width: 100%;
+  overflow-x: clip;
+}
+
+canvas,
+svg,
+img,
+video {
+  max-width: 100%;
+}
+
+.hero-grid > *,
+.simulation-grid > *,
+.panel-grid > *,
+.product-compare > *,
+.application-grid > *,
+.stack-track > *,
+.cta-row > *,
+.hero-actions > * {
+  min-width: 0;
+}
+
+.hero-visual,
+.sim-top-panel,
+.sim-main-panel,
+.telemetry-panel,
+.panel,
+.stack-step,
+.callout {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.btn,
+.main-nav a,
+.classifier,
+.meta-note a {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.hero-copy h1,
+.page-hero h1,
+h1,
+h2,
+h3,
+.lead,
+.section-text,
+.meta-note,
+.panel p,
+.panel li,
+.stack-step-content p,
+.hero-metrics li {
+  overflow-wrap: anywhere;
+}
+
+.telemetry-panel {
+  min-width: 0;
+}
+
+.telemetry-table {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.telemetry-row {
+  min-width: 18rem;
+}
+
+@media (max-width: 760px) {
+  .telemetry-table {
+    padding-bottom: 0.15rem;
+  }
+
+  .hero-copy h1,
+  .page-hero h1,
+  h1 {
+    max-width: none;
+  }
+
+  .sim-panel-header,
+  .telemetry-header {
+    min-width: 0;
+  }
+
+  .telemetry-title,
+  .telemetry-subtitle,
+  .sim-panel-label,
+  .sim-panel-hint {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    width: calc(100% - 1rem);
+  }
+
+  .hero-visual,
+  .sim-top-panel,
+  .sim-main-panel,
+  .telemetry-panel,
+  .panel,
+  .stack-step,
+  .callout {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+
+  .telemetry-row {
+    min-width: 17rem;
+  }
+}
